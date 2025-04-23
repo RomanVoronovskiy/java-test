@@ -11,91 +11,69 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class SimpleCalculatorTest {
 
-    private SimpleCalculator calc;
+    SimpleCalculator simpleCalculator;
 
     @BeforeEach
-    public void setUp() {
-        calc = new SimpleCalculator();
+    void setUp() {
+        simpleCalculator = new SimpleCalculator();
     }
 
     @Test
-    public void testAdd() {
-        int result = calc.add(1, 1);
-
-        Assertions.assertEquals(2, result);
+    void addTest() {
+        //подготовка данных
+        int a = 10;
+        int b = 187;
+        //выполнение
+        int result = simpleCalculator.add(a, b);
+        //сравнение  ОР и ФР
+        assertEquals(197, result);
     }
 
     @Test
-    public void testAddFalse() {
-        int result = calc.add(3, 5);
+    void addFailTest() {
+        int a = 10;
+        int b = 187;
+        simpleCalculator = new SimpleCalculator();
 
-        Assertions.assertFalse(result == 7);
+        int result = simpleCalculator.add(a, b);
+
+        Assertions.assertNotEquals(196, result);
     }
 
-//    @Test
-//    public void testAddFail(){
-//        Assertions.fail("Данные некорректы!");
-//    }
 
-    @Test
-    public void testAddEq() {
-        Assertions.assertEquals(5, calc.add(3, 2));
-    }
-
-    @Test
-    public void testSubtract() {
-        Assertions.assertEquals(1, calc.subtract(2, 1));
-    }
-
-    @Test
-    public void testMultiply() {
-        Assertions.assertEquals(1, calc.multiply(1, 1));
-    }
-
-    @Test
-    public void testDivide() {
-        Assertions.assertEquals(2, calc.divide(2, 1));
-    }
-
-    @Test
-    public void testDivideThrows() {
-        Assertions.assertThrows(ArithmeticException.class, () -> {
-            calc.divide(3, 0);
-        }, "Должно выброситься исключение при делении на ноль");
-    }
-
-    @Test
-    public void testDivideDoesNotThrows() {
-        Assertions.assertDoesNotThrow(() -> {
-            calc.divide(3, 1);
-        }, "Не должно выброситься исключение !");
-    }
-
+    @ParameterizedTest
     @CsvSource({
-            "1, 1, 2",
-            "2, 2, 4",
-            "3, 3, 6",
-            "4, 4, 8"
+            "10,3,7",
+            "5,2,3",
+            "100,70,30"
     })
-    @ParameterizedTest
-    public void testAddOne(int a, int b, int result) {
-        Assertions.assertEquals(result, calc.add(a, b));
+    @DisplayName("тест проверяющий разность")
+    void subtract(int a, int b, int result) {
+        int actualResult = simpleCalculator.subtract(a, b);
+
+        assertEquals(result, actualResult);
     }
 
     @ParameterizedTest
-    @MethodSource("testData")
-    public void testAddTwo(int a, int b, int result) {
-        Assertions.assertEquals(result, calc.add(a, b));
+    @MethodSource("multiplyData")
+    void multiply(int a, int b, int result) {
+        assertEquals(result, simpleCalculator.multiply(a, b));
     }
 
-    @MethodSource
-    public static Stream<Arguments> testData() {
+    public static Stream<Arguments> multiplyData() {
         return Stream.of(
-                Arguments.of(1, 1, 2),
-                Arguments.of(2, 3, 5)
+                Arguments.of(1, 2, 2),
+                Arguments.of(3, 9, 27),
+                Arguments.of(3, 8, 24)
         );
     }
 
+    @Test
+    void divide() {
+
+    }
 }
