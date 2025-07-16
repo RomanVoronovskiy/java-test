@@ -17,7 +17,7 @@
         <RollingFile name="FileLogger" fileName="logs/app.log" filePattern="logs/app-%d{yyyy-MM-dd}-%i.log" append="true">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="2MB"/> <!-- Максимальный размер файла 5 МБ -->
+                <SizeBasedTriggeringPolicy size="5MB"/> <!-- Максимальный размер файла 5 МБ -->
             </Policies>
             <DefaultRolloverStrategy max="10"/> <!-- Максимальное количество старых файлов 10 -->
         </RollingFile>

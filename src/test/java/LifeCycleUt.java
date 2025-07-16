@@ -1,5 +1,3 @@
-package ru.otus;
-
 import org.junit.jupiter.api.*;
 
 public class LifeCycleUt {
